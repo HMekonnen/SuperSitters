@@ -91,3 +91,37 @@
 
 
  */
+
+/**{
+      "name": "test parent",
+
+    "bio" :"Seeking help with the kids", 
+
+    "city":"Springfield",
+
+    "state": "VA",
+
+    "languagesSpoken":"English",
+
+   "numChildren":"2",
+
+"childDetails": [
+    {
+    "age": "4"
+    },
+    {
+        "age":"8 months"
+    }],
+ 
+ "jobType": {},
+ "pay":{
+
+     "perHour": 30,
+
+     "perChild": 15,
+
+     "negotiable": true
+ }
+ }
+
+ */
