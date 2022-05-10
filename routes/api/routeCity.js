@@ -107,42 +107,9 @@ router
 
 
 
+/**=============================================PARENT ROUTES============================================== */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/**=============================================PARENT ROUTES============================================== */
 
 /**=============================================PARENT ROUTES============================================== */
 // 1. CREATE NEW PARENT
@@ -161,19 +128,75 @@ router
 })
 
 
-
+/**=============================================PARENT "INDEX" ROUTE============================================== */
 // 2. products/	GET	index	INDEX when a user types localhost:3000/products this route shows a list or index of all products
 
+router
+.route("/parents")
+.get((req,res)=>{
+    
+    Parent.find( (err, parents)=>{
+        if(err){
+            res.status(400).json({msg: err.message})
+        } else {
+            res.status(201).json({parents})
+        }
 
+    })
+})
+
+/**=============================================PARENT- SHOW BY ID ROUTE============================================== */
 // 3. products/:id	GET	show	SHOW when a user types localhost:3000/products/:idOfProduct shows the user an Individual product
 
+// Works! - Confirm status codes && look into order of display
+router
+.route("/parents/:id")
+.get((req,res)=>{
+    const parentID = req.params.id
+    Parent.findOne({parentID},(err, parent)=>{
+        if(err){
+            res.status(404).json({msg: error.message, msgII: `No parent with the ID ${parentID} found.`})
+        } else {
+            res.status(201).json({parent})
+        }
+        console.log("Search parent by ID was run. ")
+    })
+})
 
+/**=============================================PARENT - UPDATE BY ID ROUTE============================================== */
 // 4. products/:id	PUT	update	UPDATE initiates a put request through a postman with action = http://localhost:3000/products/:idOfProductand allows the application the ability to Update data about a product
+// WORKS! - SAME DISPLAY AS ALL THE ABOVE- ARRAYS ARE DISPLAYING FIRST. -CIRCLE BACK
+router
+.route("/parents/:id")
+.put((req,res)=>{
+    const parentID= req.params.id
+    const updatedParent = req.body
+    Parent.findByIdAndUpdate(parentID,updatedParent,{new:true},(err, updatedParent)=>{
+        if (err){
+            res.status(400).json({msg: error.message, msgII: `No parent with the ID ${parentID} found`})
+        } else{
+            res.status(200).json({updatedParent})
+        }
+        console.log("Update parent by ID was run ")
+    })
+})
 
 
+/**=============================================PARENT - DELETE BY ID ROUTE============================================== */
 // 5. products/:id	DELETE	delete	DELETE initiates a delete request through a form submission with action = http://localhost:3000/products/:idOfProductand allows the application the ability to delete a product
-
-
+// Works!  - same issue of order when displaying + check status codes
+router
+.route("/parents/:id")
+.delete((req,res)=>{
+    const parentID= req.params.id
+    Parent.findByIdAndDelete(parentID,(err,parent)=>{
+        if (err){
+            res.status(400).json({msg: error.message, msgII: `No parent with the ID ${parentID} found`})
+        } else {
+            res.status(201).json({msg: "Deletion Successful", Deleted: {parent}})
+        }
+    })
+})
 
 
 
