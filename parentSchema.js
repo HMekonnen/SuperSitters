@@ -7,24 +7,26 @@ const express = require("express")
 
 const router =  express.Router()
 
+const {Schema}= require("mongoose")
+
 
 //create Sitter SCHEMA  
 const parentSchema = new mongoose.Schema({
     name: {type: String, required: true},
 
-    bio:{type:String, required: true}, 
+    bio:{type:String, required: true, maxlength: 250}, 
 
     city: {type: String, required: true},
 
     state: {type: String, required: true},
 
-    languagesSpoken:{type: String, required: true},
+    languagesSpoken: [{type: String, required: true}],
 
-    numChildren:{type:String, required:true},
+    numChildren:{type: Number, required:true,min: 0},
 
     childDetails: [{
 
-        age: {type: String, required: true},
+        age: {type: Number, required: true},
 
         specialRequirements:{type: String},
 
@@ -40,12 +42,15 @@ const parentSchema = new mongoose.Schema({
     },
  pay:{
 
-     perHour: {type:String, required: true}, // String vs Number for flexibility reasons- maybe change back to Number later
+     perHour: {type:Number, required: true, min: 0}, // string vs Number for flexibility reasons- maybe change back to Number later
 
-     perChild: {type:String, required: true},
+     perChild: {type:Number, required: true, min: 0}, 
 
      negotiable: {type: Boolean, required: true, default: false},
     },
+     favorited_sitters: [
+        {type: Schema.Types.ObjectId, ref: 'Babysitter'} // look into what goes into ref - babysitter or sitter
+    ]
  
 },{timestamps:true}) 
 
